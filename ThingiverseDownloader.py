@@ -38,6 +38,32 @@ def download_files(URL):
     name_position = page_contents.find("ThingFilesListHeader__fileName") + len("ThingFilesListHeader__fileName") + 9
     project_name = page_contents[name_position:]
     project_name = project_name[:project_name.find("</")]
+    bad_filename_symbols = [
+        "#",
+        "%",
+        "&",
+        "{",
+        "}",
+        "\\",
+        "<",
+        ">",
+        "*",
+        "?",
+        "/",
+        "$",
+        "!",
+        "'",
+        '"',
+        ":",
+        "@",
+        "+",
+        "`",
+        "|",
+        "=",
+    ]
+    for symbol in bad_filename_symbols:
+        project_name = project_name.replace(symbol, " ")
+    project_name = project_name.strip()
     os.mkdir(project_name)
     end_of_files_position = page_contents.find("ThingFilePolicy__thingFilePolicyContainer") + len(
         "ThingFilePolicy__thingFilePolicyContainer") + 9
